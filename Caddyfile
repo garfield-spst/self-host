@@ -1,0 +1,11 @@
+vault.spst.tech {
+  reverse_proxy vaultwarden:80
+}
+
+memos.spst.tech {
+  reverse_proxy memos:5230
+}
+
+links.spst.tech {
+  reverse_proxy linkding:9090
+}

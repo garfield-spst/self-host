@@ -1,0 +1,44 @@
+version: '3'
+services:
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+  vaultwarden:
+    image: vaultwarden/server:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/vaultwarden:/data
+    environment:
+      - ADMIN_TOKEN=${ADMIN_TOKEN}
+    expose:
+      - "80"
+
+  memos:
+    image: neosmemo/memos:latest
+    restart: unless-stopped
+    volumes:
+      - ./data/memos:/var/opt/memos
+    expose:
+      - "5230"
+
+  linkding:
+    image: sissbruecker/linkding:latest
+    restart: unless-stopped
+    environment:
+      - LD_ADMIN_PASSWORD=${LD_ADMIN_PASSWORD}
+    volumes:
+      - ./data/linkding:/etc/linkding
+    expose:
+      - "9090"
+
+volumes:
+  caddy_data:
+  caddy_config:
